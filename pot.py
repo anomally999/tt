@@ -1,8 +1,123 @@
-# royal_market.py — Royal Market Economy Bot
+# royal_market.py — Royal Market Economy Bot (Python 3.13 Compatible)
 # Economy-only commands for medieval marketplace
 import os
 import random
 import sqlite3
+import sys
+import types
+
+# ----- PATCH FOR PYTHON 3.13 -----
+# audioop was removed in Python 3.13, create a mock module
+class MockAudioop:
+    """Mock audioop module for Python 3.13 compatibility"""
+    @staticmethod
+    def add(fragment1, fragment2, width):
+        return fragment1
+    
+    @staticmethod
+    def adpcm2lin(adpcmfragment, width, state):
+        return (b'', (0, 0))
+    
+    @staticmethod
+    def alaw2lin(fragment, width):
+        return fragment
+    
+    @staticmethod
+    def avg(fragment, width):
+        return 0
+    
+    @staticmethod
+    def avgpp(fragment, width):
+        return 0
+    
+    @staticmethod
+    def bias(fragment, width, bias):
+        return fragment
+    
+    @staticmethod
+    def byteswap(fragment, width):
+        return fragment
+    
+    @staticmethod
+    def cross(fragment, width):
+        return 0
+    
+    @staticmethod
+    def findfactor(fragment, reference):
+        return 0.0
+    
+    @staticmethod
+    def findfit(fragment, reference):
+        return (0, 0.0)
+    
+    @staticmethod
+    def findmax(fragment, length):
+        return 0
+    
+    @staticmethod
+    def getsample(fragment, width, index):
+        return 0
+    
+    @staticmethod
+    def lin2adpcm(fragment, width, state):
+        return (b'', (0, 0))
+    
+    @staticmethod
+    def lin2alaw(fragment, width):
+        return fragment
+    
+    @staticmethod
+    def lin2lin(fragment, width, newwidth):
+        return fragment
+    
+    @staticmethod
+    def lin2ulaw(fragment, width):
+        return fragment
+    
+    @staticmethod
+    def max(fragment, width):
+        return 0
+    
+    @staticmethod
+    def maxpp(fragment, width):
+        return 0
+    
+    @staticmethod
+    def minmax(fragment, width):
+        return (0, 0)
+    
+    @staticmethod
+    def mul(fragment, width, factor):
+        return fragment
+    
+    @staticmethod
+    def ratecv(fragment, width, nchannels, inrate, outrate, state, weightA=1, weightB=0):
+        return (fragment, state)
+    
+    @staticmethod
+    def reverse(fragment, width):
+        return fragment
+    
+    @staticmethod
+    def rms(fragment, width):
+        return 0
+    
+    @staticmethod
+    def tomono(fragment, width, lfactor, rfactor):
+        return fragment
+    
+    @staticmethod
+    def tostereo(fragment, width, lfactor, rfactor):
+        return fragment + fragment
+    
+    @staticmethod
+    def ulaw2lin(fragment, width):
+        return fragment
+
+# Install the mock before importing discord
+sys.modules['audioop'] = MockAudioop()
+
+# Now import discord
 import discord
 from discord.ext import commands, tasks
 from discord import app_commands
